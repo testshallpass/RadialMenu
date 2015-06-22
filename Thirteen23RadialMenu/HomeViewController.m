@@ -13,16 +13,16 @@
 @end
 
 @implementation HomeViewController
-
-- (void)viewDidLoad {
+#pragma mark - Life
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"Home";
 }
-
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 @end
