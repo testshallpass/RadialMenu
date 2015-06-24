@@ -24,7 +24,7 @@
     self = [super initWithFrame:CGRectMake([UIScreen mainScreen].bounds.origin.x, [UIScreen mainScreen].bounds.origin.y, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     if (self)
     {
-        [self setupItemsForScreen:screen];
+        [self setupButtons];
         self.screenIndex = screen;
 
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
@@ -36,7 +36,7 @@
     }
     return self;
 }
--(void)setupItemsForScreen:(ScreenIndex)screen
+-(void)setupButtons
 {
     self.leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     self.leftButton.backgroundColor = [UIColor whiteColor];
@@ -71,65 +71,83 @@
     self.bottomButton.layer.borderWidth = 2.0f;
     [self.bottomButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self addSubview:self.bottomButton];
-    
-    [self setupScreen:screen];
 }
--(void)setupScreen:(ScreenIndex)screen
+-(NSArray *)titlesForScreen:(ScreenIndex)screen
 {
+    NSArray *args = [NSArray new];
     switch (screen)
     {
         case ScreenIndexHome:
         {
-            [self.topButton setTitle:@"1" forState:UIControlStateNormal];
-            [self.rightButton setTitle:@"2" forState:UIControlStateNormal];
-            [self.leftButton setTitle:@"2" forState:UIControlStateNormal];
-            [self.bottomButton setTitle:@"3" forState:UIControlStateNormal];
+            args = @[@"1",@"2",@"3"];
             break;
         }
         case ScreenIndexOne:
         {
-            [self.topButton setTitle:@"h" forState:UIControlStateNormal];
-            [self.rightButton setTitle:@"2" forState:UIControlStateNormal];
-            [self.leftButton setTitle:@"2" forState:UIControlStateNormal];
-            [self.bottomButton setTitle:@"3" forState:UIControlStateNormal];
+            args = @[@"h",@"2",@"3"];
             break;
         }
         case ScreenIndexTwo:
         {
-            [self.topButton setTitle:@"1" forState:UIControlStateNormal];
-            [self.rightButton setTitle:@"h" forState:UIControlStateNormal];
-            [self.leftButton setTitle:@"h" forState:UIControlStateNormal];
-            [self.bottomButton setTitle:@"3" forState:UIControlStateNormal];
+            args = @[@"1",@"h",@"3"];
             break;
         }
         case ScreenIndexThree:
         {
-            [self.topButton setTitle:@"1" forState:UIControlStateNormal];
-            [self.rightButton setTitle:@"2" forState:UIControlStateNormal];
-            [self.leftButton setTitle:@"2" forState:UIControlStateNormal];
-            [self.bottomButton setTitle:@"h" forState:UIControlStateNormal];
+            args = @[@"1",@"2",@"h"];
             break;
         }
-        default:
-        {
-            break;
-        }
+    }
+    return args;
+}
+-(void)setTitlesForScreen:(ScreenIndex)screen andButtons:(NSArray *)args
+{
+    NSArray *titles = [self titlesForScreen:screen];
+    int index = 0;
+    for (UIButton *button in args)
+    {
+        button.hidden = NO;
+        [button setTitle:titles[index] forState:UIControlStateNormal];
+        index++;
     }
 }
 -(void)showAnimatedAtLocation:(CGPoint)location
 {
-   BOOL showLeft = (location.x > ([UIScreen mainScreen].bounds.size.width / 2));
+    NSMutableArray *buttonsToShow = @[self.leftButton,self.topButton,self.rightButton,self.bottomButton].mutableCopy;
+   
+    BOOL showLeft = (location.x > ([UIScreen mainScreen].bounds.size.width / 2));
+    BOOL hideTop = (location.y < 154);
+    BOOL hideBottom = (location.y > [UIScreen mainScreen].bounds.size.height-75);
     
-    if (showLeft)
+    if (hideTop || hideBottom)
     {
-        self.rightButton.hidden = YES;
-        self.leftButton.hidden = NO;
+        if (hideTop)
+        {
+            self.topButton.hidden = YES;
+            [buttonsToShow removeObject:self.topButton];
+        }
+        if (hideBottom)
+        {
+            self.bottomButton.hidden = YES;
+            [buttonsToShow removeObject:self.bottomButton];
+        }
     }
     else
     {
-        self.leftButton.hidden = YES;
-        self.rightButton.hidden = NO;
+        if (showLeft)
+        {
+            self.rightButton.hidden = YES;
+            [buttonsToShow removeObject:self.rightButton];
+        }
+        else
+        {
+            self.leftButton.hidden = YES;
+            [buttonsToShow removeObject:self.leftButton];
+        }
     }
+
+    [self setTitlesForScreen:self.screenIndex andButtons:buttonsToShow];
+    
     self.centerLocation = location;
     self.rightButton.center = self.centerLocation;
     self.leftButton.center = self.centerLocation;
