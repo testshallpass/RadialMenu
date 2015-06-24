@@ -70,13 +70,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DC0CD1011B39F16300A868D2 /* Manager */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Manager;
-			sourceTree = "<group>";
-		};
 		DCC67EB11B38A61D002E37DB = {
 			isa = PBXGroup;
 			children = (
@@ -100,7 +93,6 @@
 			children = (
 				DCC67EC11B38A61D002E37DB /* AppDelegate.h */,
 				DCC67EC21B38A61D002E37DB /* AppDelegate.m */,
-				DC0CD1011B39F16300A868D2 /* Manager */,
 				DCC67EE41B38A98A002E37DB /* Views */,
 				DCC67EE31B38A982002E37DB /* Screens */,
 				DCC67ECA1B38A61D002E37DB /* Images.xcassets */,
@@ -116,7 +108,7 @@
 				DCC67EBE1B38A61D002E37DB /* Info.plist */,
 				DCC67EBF1B38A61D002E37DB /* main.m */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		DCC67ED61B38A61D002E37DB /* Thirteen23RadialMenuTests */ = {
@@ -133,7 +125,7 @@
 			children = (
 				DCC67ED81B38A61D002E37DB /* Info.plist */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		DCC67EE31B38A982002E37DB /* Screens */ = {
@@ -144,7 +136,7 @@
 				DCC67EE71B38AADA002E37DB /* Two */,
 				DCC67EE81B38AAE1002E37DB /* Three */,
 			);
-			name = Screens;
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		DCC67EE41B38A98A002E37DB /* Views */ = {
@@ -153,7 +145,7 @@
 				DCC67EF71B38AEB9002E37DB /* RadialMenu.h */,
 				DCC67EF81B38AEB9002E37DB /* RadialMenu.m */,
 			);
-			name = Views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		DCC67EE51B38A993002E37DB /* Home */ = {
@@ -162,7 +154,7 @@
 				DCC67EC41B38A61D002E37DB /* HomeViewController.h */,
 				DCC67EC51B38A61D002E37DB /* HomeViewController.m */,
 			);
-			name = Home;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		DCC67EE61B38AACD002E37DB /* One */ = {
@@ -171,7 +163,7 @@
 				DCC67EE91B38AB1E002E37DB /* OneViewController.h */,
 				DCC67EEA1B38AB1E002E37DB /* OneViewController.m */,
 			);
-			name = One;
+			path = One;
 			sourceTree = "<group>";
 		};
 		DCC67EE71B38AADA002E37DB /* Two */ = {
@@ -180,7 +172,7 @@
 				DCC67EEC1B38AB2C002E37DB /* TwoViewController.h */,
 				DCC67EED1B38AB2C002E37DB /* TwoViewController.m */,
 			);
-			name = Two;
+			path = Two;
 			sourceTree = "<group>";
 		};
 		DCC67EE81B38AAE1002E37DB /* Three */ = {
@@ -189,7 +181,7 @@
 				DCC67EEF1B38AB3A002E37DB /* ThreeViewController.h */,
 				DCC67EF01B38AB3A002E37DB /* ThreeViewController.m */,
 			);
-			name = Three;
+			path = Three;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +318,7 @@
 				DCC67ECD1B38A61D002E37DB /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -415,7 +408,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Thirteen23RadialMenu/Info.plist;
+				INFOPLIST_FILE = "Thirteen23RadialMenu/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -425,7 +418,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Thirteen23RadialMenu/Info.plist;
+				INFOPLIST_FILE = "Thirteen23RadialMenu/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -443,7 +436,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = Thirteen23RadialMenuTests/Info.plist;
+				INFOPLIST_FILE = "Thirteen23RadialMenuTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Thirteen23RadialMenu.app/Thirteen23RadialMenu";
@@ -458,7 +451,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = Thirteen23RadialMenuTests/Info.plist;
+				INFOPLIST_FILE = "Thirteen23RadialMenuTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Thirteen23RadialMenu.app/Thirteen23RadialMenu";
