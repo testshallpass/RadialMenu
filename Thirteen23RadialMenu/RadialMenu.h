@@ -23,7 +23,8 @@ typedef NS_ENUM(NSUInteger, ScreenIndex)
 
 @interface RadialMenu : UIView 
 @property (weak, nonatomic) id <RadialMenuDelegate> delegate;
-- (instancetype)initWithLocation:(CGPoint)location andScreen:(ScreenIndex)screen;
--(void)hideAnimated;
--(void)showAnimated;
+-(instancetype)initWithScreen:(ScreenIndex)screen;
+-(void)showAnimatedAtLocation:(CGPoint)location;
+-(void)hideAnimated:(void (^)(BOOL finished))completion;
+
 @end

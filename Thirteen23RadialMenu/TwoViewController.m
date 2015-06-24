@@ -16,39 +16,36 @@
 @end
 
 @implementation TwoViewController
-
-- (void)viewDidLoad {
+#pragma mark - Life
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     UILabel *label = [[UILabel alloc] initWithFrame:self.view.bounds];
     label.text = @"2";
-    label.font = [UIFont boldSystemFontOfSize:200.0f];
+    label.font = [UIFont boldSystemFontOfSize:150.0f];
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
     
+    self.menu = [[RadialMenu alloc] initWithScreen:ScreenIndexTwo];
+    self.menu.delegate = self;
+    [self.view addSubview:self.menu];
+    
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
     [self.view addGestureRecognizer:longPressGesture];
+    
+    self.navigationItem.hidesBackButton = YES;
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - Long Press Handler
 -(void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress
 {
     if (longPress.state == UIGestureRecognizerStateBegan)
     {
-        if (self.menu)
-        {
-            [self.menu hideAnimated];
-        }
         CGPoint location = [longPress locationInView:self.view];
-        self.menu = [[RadialMenu alloc] initWithLocation:location andScreen:ScreenIndexTwo];
-        self.menu.delegate = self;
-        [self.menu showAnimated];
-        [self.view addSubview:self.menu];
+        [self.menu showAnimatedAtLocation:location];
     }
 }
+#pragma mark - Radial Menu Delegate
 -(void)selectedButtonAtScreenIndex:(ScreenIndex)index
 {
     switch (index)
