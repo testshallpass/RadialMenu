@@ -7,9 +7,12 @@
 //
 
 #import "ThreeViewController.h"
+#import "RadialMenu.h"
+#import "OneViewController.h"
+#import "TwoViewController.h"
 
-@interface ThreeViewController ()
-
+@interface ThreeViewController () <RadialMenuDelegate>
+@property (strong, nonatomic) RadialMenu *menu;
 @end
 
 @implementation ThreeViewController
@@ -17,22 +20,58 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"Three";
+    UILabel *label = [[UILabel alloc] initWithFrame:self.view.bounds];
+    label.text = @"3";
+    label.font = [UIFont boldSystemFontOfSize:200.0f];
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
+    
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+    [self.view addGestureRecognizer:longPressGesture];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress
+{
+    if (longPress.state == UIGestureRecognizerStateBegan)
+    {
+        if (self.menu)
+        {
+            [self.menu hideAnimated];
+        }
+        CGPoint location = [longPress locationInView:self.view];
+        self.menu = [[RadialMenu alloc] initWithLocation:location andScreen:ScreenIndexThree];
+        self.menu.delegate = self;
+        [self.menu showAnimated];
+        [self.view addSubview:self.menu];
+    }
 }
-*/
-
+-(void)selectedButtonAtScreenIndex:(ScreenIndex)index
+{
+    switch (index)
+    {
+        case ScreenIndexHome:
+        {
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            break;
+        }
+        case ScreenIndexOne:
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            break;
+        }
+        case ScreenIndexTwo:
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+}
 @end

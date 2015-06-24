@@ -16,6 +16,7 @@
 		DCC67EEB1B38AB1E002E37DB /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EEA1B38AB1E002E37DB /* OneViewController.m */; };
 		DCC67EEE1B38AB2C002E37DB /* TwoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EED1B38AB2C002E37DB /* TwoViewController.m */; };
 		DCC67EF11B38AB3A002E37DB /* ThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EF01B38AB3A002E37DB /* ThreeViewController.m */; };
+		DCC67EF91B38AEB9002E37DB /* RadialMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EF81B38AEB9002E37DB /* RadialMenu.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,8 @@
 		DCC67EED1B38AB2C002E37DB /* TwoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoViewController.m; sourceTree = "<group>"; };
 		DCC67EEF1B38AB3A002E37DB /* ThreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeViewController.h; sourceTree = "<group>"; };
 		DCC67EF01B38AB3A002E37DB /* ThreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeViewController.m; sourceTree = "<group>"; };
+		DCC67EF71B38AEB9002E37DB /* RadialMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadialMenu.h; sourceTree = "<group>"; };
+		DCC67EF81B38AEB9002E37DB /* RadialMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadialMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC0CD1011B39F16300A868D2 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
 		DCC67EB11B38A61D002E37DB = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +100,7 @@
 			children = (
 				DCC67EC11B38A61D002E37DB /* AppDelegate.h */,
 				DCC67EC21B38A61D002E37DB /* AppDelegate.m */,
+				DC0CD1011B39F16300A868D2 /* Manager */,
 				DCC67EE41B38A98A002E37DB /* Views */,
 				DCC67EE31B38A982002E37DB /* Screens */,
 				DCC67ECA1B38A61D002E37DB /* Images.xcassets */,
@@ -139,6 +150,8 @@
 		DCC67EE41B38A98A002E37DB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DCC67EF71B38AEB9002E37DB /* RadialMenu.h */,
+				DCC67EF81B38AEB9002E37DB /* RadialMenu.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -279,6 +292,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCC67EC61B38A61D002E37DB /* HomeViewController.m in Sources */,
+				DCC67EF91B38AEB9002E37DB /* RadialMenu.m in Sources */,
 				DCC67EC31B38A61D002E37DB /* AppDelegate.m in Sources */,
 				DCC67EC01B38A61D002E37DB /* main.m in Sources */,
 				DCC67EF11B38AB3A002E37DB /* ThreeViewController.m in Sources */,
@@ -470,6 +484,7 @@
 				DCC67EDF1B38A61D002E37DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DCC67EE01B38A61D002E37DB /* Build configuration list for PBXNativeTarget "Thirteen23RadialMenuTests" */ = {
 			isa = XCConfigurationList;
@@ -478,6 +493,7 @@
 				DCC67EE21B38A61D002E37DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
