@@ -35,6 +35,8 @@
     [self.view addGestureRecognizer:longPressGesture];
     
     self.navigationItem.hidesBackButton = YES;
+    
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 #pragma mark - Long Press Handler
 -(void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress
