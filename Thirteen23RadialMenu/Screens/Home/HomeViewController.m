@@ -22,6 +22,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // TODO: Animate Label to in/out left/right
     UILabel *label = [[UILabel alloc] initWithFrame:self.view.bounds];
     label.text = @"h";
     label.font = [UIFont boldSystemFontOfSize:150.0f];
@@ -32,25 +34,14 @@
     self.menu.delegate = self;
     [self.view addSubview:self.menu];
     
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
-    [self.view addGestureRecognizer:longPressGesture];
-    
     self.navigationItem.hidesBackButton = YES;
     
     self.view.backgroundColor = [UIColor whiteColor];
 }
-#pragma mark - Long Press Handler
--(void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress
-{
-    if (longPress.state == UIGestureRecognizerStateBegan)
-    {
-        CGPoint location = [longPress locationInView:self.view];
-        [self.menu showAnimatedAtLocation:location];
-    }
-}
 #pragma mark - Radial Menu Delegate
 -(void)selectedButtonAtScreenIndex:(ScreenIndex)index
 {
+    // TODO: Animate label and remove navigation
     UINavigationController *navController = [[UINavigationController alloc] init];
     switch (index)
     {

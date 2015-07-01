@@ -28,23 +28,22 @@
     {
         [self setupButtons];
         self.screenIndex = screen;
-
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        [self addGestureRecognizer:pan];
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-        [self addGestureRecognizer:tap];
-        
+        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+        longPressGesture.minimumPressDuration = 0.01f;
+        [self addGestureRecognizer:longPressGesture];
     }
     return self;
 }
 -(void)setupButtons
 {
+    // TODO: Boilerplate
     self.leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     self.leftButton.backgroundColor = [UIColor whiteColor];
     self.leftButton.layer.cornerRadius = self.leftButton.frame.size.width / 2;
     self.leftButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.leftButton.layer.borderWidth = 2.0f;
+    self.leftButton.alpha = 0;
     [self.leftButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self addSubview:self.leftButton];
     [self bringSubviewToFront:self.leftButton];
@@ -54,6 +53,7 @@
     self.rightButton.layer.cornerRadius = self.rightButton.frame.size.width / 2;
     self.rightButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.rightButton.layer.borderWidth = 2.0f;
+    self.rightButton.alpha = 0;
     [self.rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self addSubview:self.rightButton];
     [self bringSubviewToFront:self.rightButton];
@@ -63,6 +63,7 @@
     self.topButton.layer.cornerRadius = self.topButton.frame.size.width / 2;
     self.topButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.topButton.layer.borderWidth = 2.0f;
+    self.topButton.alpha = 0;
     [self.topButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self addSubview:self.topButton];
     
@@ -71,6 +72,7 @@
     self.bottomButton.layer.cornerRadius = self.bottomButton.frame.size.width / 2;
     self.bottomButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.bottomButton.layer.borderWidth = 2.0f;
+    self.bottomButton.alpha = 0;
     [self.bottomButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self addSubview:self.bottomButton];
 }
@@ -115,8 +117,12 @@
 }
 -(void)showAnimatedAtLocation:(CGPoint)location
 {
+    if (CGPointEqualToPoint(self.centerLocation, location))
+    {
+        return;
+    }
+    
     NSMutableArray *buttonsToShow = @[self.leftButton,self.topButton,self.rightButton,self.bottomButton].mutableCopy;
-   
     BOOL showLeft = (location.x > ([UIScreen mainScreen].bounds.size.width / 2));
     BOOL hideTop = (location.y < 154);
     BOOL hideBottom = (location.y > [UIScreen mainScreen].bounds.size.height-75);
@@ -151,17 +157,19 @@
     [self setTitlesForScreen:self.screenIndex andButtons:buttonsToShow];
     
     self.centerLocation = location;
+    // TODO: Boilerplate
     self.rightButton.center = self.centerLocation;
     self.leftButton.center = self.centerLocation;
     self.topButton.center = self.centerLocation;
     self.bottomButton.center = self.centerLocation;
-    
+    // TODO: Boilerplate
     self.rightButton.alpha = 1.0f;
     self.leftButton.alpha = 1.0f;
     self.topButton.alpha = 1.0f;
     self.bottomButton.alpha = 1.0f;
     
     [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        // TODO: Boilerplate
         self.rightButton.center = CGPointMake(self.centerLocation.x+50,self.centerLocation.y);
         self.leftButton.center = CGPointMake(self.centerLocation.x-50,self.centerLocation.y);
         self.topButton.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-50);
@@ -173,11 +181,13 @@
 -(void)hideAnimated:(void (^)(BOOL finished))completion
 {
     [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        // TODO: Boilerplate
         self.rightButton.center = self.centerLocation;
         self.leftButton.center = self.centerLocation;
         self.topButton.center = self.centerLocation;
         self.bottomButton.center = self.centerLocation;
     } completion:^(BOOL finished) {
+       // TODO: Boilerplate
         self.rightButton.alpha = 0;
         self.leftButton.alpha = 0;
         self.topButton.alpha = 0;
@@ -186,46 +196,48 @@
         completion(finished);
     }];
 }
--(void)handleTap:(UITapGestureRecognizer *)tap
+-(void)handleLongPressGesture:(UILongPressGestureRecognizer *)longPress
 {
-    [self hideAnimated:^(BOOL finished) {
-        
-    }];
-}
--(void)handlePan:(UIPanGestureRecognizer *)pan
-{
-    if (pan.state == UIGestureRecognizerStateEnded)
+    CGPoint location = [longPress locationInView:self];
+    if (longPress.state == UIGestureRecognizerStateBegan)
     {
-        CGPoint location = [pan locationInView:self];
-        UIButton *btn = nil;
-        
-        if (CGRectContainsPoint(self.rightButton.frame, location))
+        [self showAnimatedAtLocation:location];
+    }
+    else if(longPress.state == UIGestureRecognizerStateEnded)
+    {
+        [self handleTouchDown:location];
+    }
+}
+-(void)handleTouchDown:(CGPoint)location
+{
+    UIButton *btn = nil;
+    
+    if (CGRectContainsPoint(self.rightButton.frame, location))
+    {
+        btn = self.rightButton;
+    }
+    else if (CGRectContainsPoint(self.leftButton.frame, location))
+    {
+        btn = self.leftButton;
+    }
+    else if (CGRectContainsPoint(self.topButton.frame, location))
+    {
+        btn = self.topButton;
+    }
+    else if (CGRectContainsPoint(self.bottomButton.frame, location))
+    {
+        btn = self.bottomButton;
+    }
+    
+    if (self.delegate != nil)
+    {
+        if ([self.delegate respondsToSelector:@selector(selectedButtonAtScreenIndex:)])
         {
-            btn = self.rightButton;
-        }
-        else if (CGRectContainsPoint(self.leftButton.frame, location))
-        {
-            btn = self.leftButton;
-        }
-        else if (CGRectContainsPoint(self.topButton.frame, location))
-        {
-            btn = self.topButton;
-        }
-        else if (CGRectContainsPoint(self.bottomButton.frame, location))
-        {
-            btn = self.bottomButton;
-        }
-        
-        if (self.delegate != nil)
-        {
-            if ([self.delegate respondsToSelector:@selector(selectedButtonAtScreenIndex:)])
+            if (btn)
             {
-                if (btn)
-                {
-                    [self hideAnimated:^(BOOL finished) {
-                       [self.delegate selectedButtonAtScreenIndex:[self screenIndexForButton:btn]];
-                    }];
-                }
+                [self hideAnimated:^(BOOL finished) {
+                    [self.delegate selectedButtonAtScreenIndex:[self screenIndexForButton:btn]];
+                }];
             }
         }
     }
