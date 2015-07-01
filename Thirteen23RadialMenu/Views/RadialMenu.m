@@ -166,7 +166,7 @@
         self.leftButton.center = CGPointMake(self.centerLocation.x-50,self.centerLocation.y);
         self.topButton.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-50);
         self.bottomButton.center = CGPointMake(self.centerLocation.x,self.centerLocation.y+50);
-        self.backgroundColor = [self darkBackground];
+        self.backgroundColor = [self darkBackgroundColor];
     } completion:nil];
     
 }
@@ -182,7 +182,7 @@
         self.leftButton.alpha = 0;
         self.topButton.alpha = 0;
         self.bottomButton.alpha = 0;
-        self.backgroundColor = [self defaultBackground];
+        self.backgroundColor = [self defaultBackgroundColor];
         completion(finished);
     }];
 }
@@ -242,11 +242,11 @@
         return (ScreenIndex)[title intValue];
     }
 }
--(UIColor *)darkBackground
+-(UIColor *)darkBackgroundColor
 {
-    return [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3];
+    return [UIColor darkGrayColor];
 }
--(UIColor *)defaultBackground
+-(UIColor *)defaultBackgroundColor
 {
     return [UIColor colorWithWhite:1.000 alpha:0.000];
 }
