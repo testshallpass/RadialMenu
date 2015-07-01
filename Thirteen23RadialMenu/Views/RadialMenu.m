@@ -8,6 +8,8 @@
 
 #import "RadialMenu.h"
 
+#define ANIMATION_DURATION 0.30f
+
 @interface RadialMenu()
 @property (strong, nonatomic) UIButton *topButton;
 @property (strong, nonatomic) UIButton *bottomButton;
@@ -154,24 +156,23 @@
     self.topButton.center = self.centerLocation;
     self.bottomButton.center = self.centerLocation;
     
-    [UIView animateWithDuration:0.25f delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        self.rightButton.alpha = 1.0f;
-        self.leftButton.alpha = 1.0f;
-        self.topButton.alpha = 1.0f;
-        self.bottomButton.alpha = 1.0f;
-        self.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3];
+    self.rightButton.alpha = 1.0f;
+    self.leftButton.alpha = 1.0f;
+    self.topButton.alpha = 1.0f;
+    self.bottomButton.alpha = 1.0f;
+    
+    [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.rightButton.center = CGPointMake(self.centerLocation.x+50,self.centerLocation.y);
         self.leftButton.center = CGPointMake(self.centerLocation.x-50,self.centerLocation.y);
         self.topButton.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-50);
         self.bottomButton.center = CGPointMake(self.centerLocation.x,self.centerLocation.y+50);
-    } completion:^(BOOL finished) {
-        
-    }];
+        self.backgroundColor = [self darkBackground];
+    } completion:nil];
     
 }
 -(void)hideAnimated:(void (^)(BOOL finished))completion
 {
-    [UIView animateWithDuration:0.25f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.rightButton.center = self.centerLocation;
         self.leftButton.center = self.centerLocation;
         self.topButton.center = self.centerLocation;
@@ -181,8 +182,8 @@
         self.leftButton.alpha = 0;
         self.topButton.alpha = 0;
         self.bottomButton.alpha = 0;
-        self.backgroundColor = [UIColor clearColor];
-        completion(YES);
+        self.backgroundColor = [self defaultBackground];
+        completion(finished);
     }];
 }
 -(void)handleTap:(UITapGestureRecognizer *)tap
@@ -240,5 +241,13 @@
     {
         return (ScreenIndex)[title intValue];
     }
+}
+-(UIColor *)darkBackground
+{
+    return [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3];
+}
+-(UIColor *)defaultBackground
+{
+    return [UIColor colorWithWhite:1.000 alpha:0.000];
 }
 @end
