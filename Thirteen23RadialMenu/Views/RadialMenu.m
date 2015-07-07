@@ -9,14 +9,15 @@
 #import "RadialMenu.h"
 
 #define ANIMATION_DURATION 0.30f
+#define BUTTON_BORDER_WIDTH 2.0f
+#define BUTTON_SIZE 50.0f
+#define BUTTON_COUNT 4
+#define BUTTON_RADIUS 50.0f
 
 @interface RadialMenu()
-@property (strong, nonatomic) UIButton *topButton;
-@property (strong, nonatomic) UIButton *bottomButton;
-@property (strong, nonatomic) UIButton *rightButton;
-@property (strong, nonatomic) UIButton *leftButton;
 @property (nonatomic, readwrite) CGPoint centerLocation;
 @property (nonatomic, readwrite) ScreenIndex screenIndex;
+@property (strong, nonatomic) NSMutableArray *buttonArray;
 @end
 
 @implementation RadialMenu
@@ -26,6 +27,7 @@
     self = [super initWithFrame:CGRectMake([UIScreen mainScreen].bounds.origin.x, [UIScreen mainScreen].bounds.origin.y, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     if (self)
     {
+        self.buttonArray = [NSMutableArray new];
         [self setupButtons];
         self.screenIndex = screen;
         
@@ -37,44 +39,19 @@
 }
 -(void)setupButtons
 {
-    // TODO: Boilerplate
-    self.leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    self.leftButton.backgroundColor = [UIColor whiteColor];
-    self.leftButton.layer.cornerRadius = self.leftButton.frame.size.width / 2;
-    self.leftButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.leftButton.layer.borderWidth = 2.0f;
-    self.leftButton.alpha = 0;
-    [self.leftButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self addSubview:self.leftButton];
-    [self bringSubviewToFront:self.leftButton];
-    
-    self.rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    self.rightButton.backgroundColor = [UIColor whiteColor];
-    self.rightButton.layer.cornerRadius = self.rightButton.frame.size.width / 2;
-    self.rightButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.rightButton.layer.borderWidth = 2.0f;
-    self.rightButton.alpha = 0;
-    [self.rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self addSubview:self.rightButton];
-    [self bringSubviewToFront:self.rightButton];
-    
-    self.topButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    self.topButton.backgroundColor = [UIColor whiteColor];
-    self.topButton.layer.cornerRadius = self.topButton.frame.size.width / 2;
-    self.topButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.topButton.layer.borderWidth = 2.0f;
-    self.topButton.alpha = 0;
-    [self.topButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self addSubview:self.topButton];
-    
-    self.bottomButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    self.bottomButton.backgroundColor = [UIColor whiteColor];
-    self.bottomButton.layer.cornerRadius = self.bottomButton.frame.size.width / 2;
-    self.bottomButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.bottomButton.layer.borderWidth = 2.0f;
-    self.bottomButton.alpha = 0;
-    [self.bottomButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self addSubview:self.bottomButton];
+    for(int index=0; index<BUTTON_COUNT; index++)
+    {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, BUTTON_SIZE, BUTTON_SIZE)];
+        button.backgroundColor = [UIColor whiteColor];
+        button.layer.cornerRadius = button.frame.size.width / 2.0f;
+        button.layer.borderColor = [UIColor blackColor].CGColor;
+        button.layer.borderWidth = BUTTON_BORDER_WIDTH;
+        button.alpha = 0.0f;
+        button.tag = index;
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self addSubview:button];
+        [self.buttonArray addObject:button];
+    }
 }
 -(NSArray *)titlesForScreen:(ScreenIndex)screen
 {
@@ -104,17 +81,6 @@
     }
     return args;
 }
--(void)setTitlesForScreen:(ScreenIndex)screen andButtons:(NSArray *)args
-{
-    NSArray *titles = [self titlesForScreen:screen];
-    int index = 0;
-    for (UIButton *button in args)
-    {
-        button.hidden = NO;
-        [button setTitle:titles[index] forState:UIControlStateNormal];
-        index++;
-    }
-}
 -(void)showAnimatedAtLocation:(CGPoint)location
 {
     if (CGPointEqualToPoint(self.centerLocation, location))
@@ -122,58 +88,48 @@
         return;
     }
     
-    NSMutableArray *buttonsToShow = @[self.leftButton,self.topButton,self.rightButton,self.bottomButton].mutableCopy;
-    BOOL showLeft = (location.x > ([UIScreen mainScreen].bounds.size.width / 2));
+    BOOL hideRight = (location.x > ([UIScreen mainScreen].bounds.size.width / 2));
+    BOOL hideLeft = !(location.x > ([UIScreen mainScreen].bounds.size.width / 2));
     BOOL hideTop = (location.y < 154);
     BOOL hideBottom = (location.y > [UIScreen mainScreen].bounds.size.height-75);
-    
-    if (hideTop || hideBottom)
-    {
-        if (hideTop)
-        {
-            self.topButton.hidden = YES;
-            [buttonsToShow removeObject:self.topButton];
-        }
-        if (hideBottom)
-        {
-            self.bottomButton.hidden = YES;
-            [buttonsToShow removeObject:self.bottomButton];
-        }
-    }
-    else
-    {
-        if (showLeft)
-        {
-            self.rightButton.hidden = YES;
-            [buttonsToShow removeObject:self.rightButton];
-        }
-        else
-        {
-            self.leftButton.hidden = YES;
-            [buttonsToShow removeObject:self.leftButton];
-        }
-    }
 
-    [self setTitlesForScreen:self.screenIndex andButtons:buttonsToShow];
-    
+    NSArray *statusArray = @[[NSNumber numberWithBool:hideRight],[NSNumber numberWithBool:hideLeft],[NSNumber numberWithBool:hideTop],[NSNumber numberWithBool:hideBottom]];
     self.centerLocation = location;
-    // TODO: Boilerplate
-    self.rightButton.center = self.centerLocation;
-    self.leftButton.center = self.centerLocation;
-    self.topButton.center = self.centerLocation;
-    self.bottomButton.center = self.centerLocation;
-    // TODO: Boilerplate
-    self.rightButton.alpha = 1.0f;
-    self.leftButton.alpha = 1.0f;
-    self.topButton.alpha = 1.0f;
-    self.bottomButton.alpha = 1.0f;
-    
     [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        // TODO: Boilerplate
-        self.rightButton.center = CGPointMake(self.centerLocation.x+50,self.centerLocation.y);
-        self.leftButton.center = CGPointMake(self.centerLocation.x-50,self.centerLocation.y);
-        self.topButton.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-50);
-        self.bottomButton.center = CGPointMake(self.centerLocation.x,self.centerLocation.y+50);
+        
+        NSArray *titles = [self titlesForScreen:self.screenIndex];
+        NSMutableArray *buttonsToShow = [NSMutableArray new];
+        for (int index=0; index < self.buttonArray.count; index++)
+        {
+            UIButton *button = (UIButton *)[self.buttonArray objectAtIndex:index];
+            if (index == 0) // right
+            {
+                button.center = CGPointMake(self.centerLocation.x+BUTTON_RADIUS,self.centerLocation.y);
+            }
+            else if (index == 1) // left
+            {
+                button.center = CGPointMake(self.centerLocation.x-BUTTON_RADIUS,self.centerLocation.y);
+            }
+            else if (index == 2) // top
+            {
+                button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-BUTTON_RADIUS);
+            }
+            else if (index == 3) // bottom
+            {
+                button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y+BUTTON_RADIUS);
+            }
+            button.alpha = ![[statusArray objectAtIndex:index] intValue];
+            if (button.alpha > 0)
+            {
+                [buttonsToShow addObject:button];
+            }
+        }
+        int index = 0;
+        for (UIButton *button in buttonsToShow)
+        {
+            [button setTitle:titles[index] forState:UIControlStateNormal];
+            index++;
+        }
         self.backgroundColor = [self darkBackgroundColor];
     } completion:nil];
     
@@ -181,17 +137,15 @@
 -(void)hideAnimated:(void (^)(BOOL finished))completion
 {
     [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        // TODO: Boilerplate
-        self.rightButton.center = self.centerLocation;
-        self.leftButton.center = self.centerLocation;
-        self.topButton.center = self.centerLocation;
-        self.bottomButton.center = self.centerLocation;
+        for (UIButton *button in self.buttonArray)
+        {
+            button.center = self.centerLocation;
+        }
     } completion:^(BOOL finished) {
-       // TODO: Boilerplate
-        self.rightButton.alpha = 0;
-        self.leftButton.alpha = 0;
-        self.topButton.alpha = 0;
-        self.bottomButton.alpha = 0;
+        for (UIButton *button in self.buttonArray)
+        {
+            button.alpha = 0.0f;
+        }
         self.backgroundColor = [self defaultBackgroundColor];
         completion(finished);
     }];
@@ -210,33 +164,23 @@
 }
 -(void)handleTouchDown:(CGPoint)location
 {
-    UIButton *btn = nil;
-    
-    if (CGRectContainsPoint(self.rightButton.frame, location))
+    UIButton *touchedButton = nil;
+    for (UIButton *button in self.buttonArray)
     {
-        btn = self.rightButton;
+        if (CGRectContainsPoint(button.frame, location))
+        {
+            touchedButton = button;
+            break;
+        }
     }
-    else if (CGRectContainsPoint(self.leftButton.frame, location))
-    {
-        btn = self.leftButton;
-    }
-    else if (CGRectContainsPoint(self.topButton.frame, location))
-    {
-        btn = self.topButton;
-    }
-    else if (CGRectContainsPoint(self.bottomButton.frame, location))
-    {
-        btn = self.bottomButton;
-    }
-    
     if (self.delegate != nil)
     {
         if ([self.delegate respondsToSelector:@selector(selectedButtonAtScreenIndex:)])
         {
-            if (btn)
+            if (touchedButton)
             {
                 [self hideAnimated:^(BOOL finished) {
-                    [self.delegate selectedButtonAtScreenIndex:[self screenIndexForButton:btn]];
+                    [self.delegate selectedButtonAtScreenIndex:[self screenIndexForButton:touchedButton]];
                 }];
             }
         }
