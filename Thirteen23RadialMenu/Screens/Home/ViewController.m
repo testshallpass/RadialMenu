@@ -10,7 +10,7 @@
 #import "RadialMenu.h"
 
 #define FONT_SIZE 150.0f
-#define ANIMATION_DURATION 0.25f
+#define ANIMATION_DURATION 0.5f
 
 @interface ViewController () <RadialMenuDelegate>
 @property (strong, nonatomic) RadialMenu *menu;
@@ -27,7 +27,6 @@
     self.label.text = @"h";
     self.label.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
     self.label.textAlignment = NSTextAlignmentCenter;
-    self.label.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:self.label];
     
     self.menu = [[RadialMenu alloc] initWithScreen:ScreenIndexHome];

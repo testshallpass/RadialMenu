@@ -98,9 +98,9 @@
         hideLeft = NO;
         hideRight = NO;
     }
-
     NSArray *statusArray = @[[NSNumber numberWithBool:hideRight],[NSNumber numberWithBool:hideLeft],[NSNumber numberWithBool:hideTop],[NSNumber numberWithBool:hideBottom]];
     self.centerLocation = location;
+    
     [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
         NSArray *titles = [self titlesForScreen:self.screenIndex];
@@ -136,7 +136,7 @@
             [button setTitle:titles[index] forState:UIControlStateNormal];
             index++;
         }
-        self.backgroundColor = [self darkBackgroundColor];
+       // self.backgroundColor = [self darkBackgroundColor];
     } completion:nil];
     
 }
@@ -197,51 +197,37 @@
 }
 -(ScreenDirection)getScreenDirection:(ScreenIndex)source andDestination:(ScreenIndex)destination
 {
+    if (source != ScreenIndexHome && destination == ScreenIndexHome)
+    {
+        return ScreenDirectionDown;
+    }
     switch (source)
     {
         case ScreenIndexHome:
         {
-            return ScreenDirectionUp; // Selecting one of the items should cause you to transition to the selected screen. The selected screen should slide in from the bottom.
+            return ScreenDirectionUp;
             break;
         }
         case ScreenIndexOne:
         {
-            if (destination == ScreenIndexHome)
-            {
-                return ScreenDirectionDown; // Selecting h will cause the home screen to slide in from the top.
-            }
-            else
-            {
-                return ScreenDirectionRight; // Slide in from the Right
-            }
+            return ScreenDirectionRight;
             break;
         }
         case ScreenIndexTwo:
         {
-            if (destination == ScreenIndexHome)
+            if (destination == ScreenIndexThree)
             {
-                return ScreenDirectionDown; // Selecting h will cause the home screen to slide in from the top.
-            }
-            else if (destination == ScreenIndexThree)
-            {
-                return ScreenDirectionRight; // Slide in from the Right
+                return ScreenDirectionRight;
             }
             else if (destination == ScreenIndexOne)
             {
-                return ScreenDirectionLeft; // Slide in from the Left
+                return ScreenDirectionLeft;
             }
             break;
         }
         case ScreenIndexThree:
         {
-            if (destination == ScreenIndexHome)
-            {
-                return ScreenDirectionDown; // Selecting h will cause the home screen to slide in from the top.
-            }
-            else
-            {
-                return ScreenDirectionLeft; // Slide in from the LEFT
-            }
+            return ScreenDirectionLeft;
             break;
         }
     }
