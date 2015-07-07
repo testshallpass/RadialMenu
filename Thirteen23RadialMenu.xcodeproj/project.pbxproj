@@ -9,13 +9,10 @@
 /* Begin PBXBuildFile section */
 		DCC67EC01B38A61D002E37DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EBF1B38A61D002E37DB /* main.m */; };
 		DCC67EC31B38A61D002E37DB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EC21B38A61D002E37DB /* AppDelegate.m */; };
-		DCC67EC61B38A61D002E37DB /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EC51B38A61D002E37DB /* HomeViewController.m */; };
+		DCC67EC61B38A61D002E37DB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EC51B38A61D002E37DB /* ViewController.m */; };
 		DCC67ECB1B38A61D002E37DB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCC67ECA1B38A61D002E37DB /* Images.xcassets */; };
 		DCC67ECE1B38A61D002E37DB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCC67ECC1B38A61D002E37DB /* LaunchScreen.xib */; };
 		DCC67EDA1B38A61D002E37DB /* Thirteen23RadialMenuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67ED91B38A61D002E37DB /* Thirteen23RadialMenuTests.m */; };
-		DCC67EEB1B38AB1E002E37DB /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EEA1B38AB1E002E37DB /* OneViewController.m */; };
-		DCC67EEE1B38AB2C002E37DB /* TwoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EED1B38AB2C002E37DB /* TwoViewController.m */; };
-		DCC67EF11B38AB3A002E37DB /* ThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EF01B38AB3A002E37DB /* ThreeViewController.m */; };
 		DCC67EF91B38AEB9002E37DB /* RadialMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC67EF81B38AEB9002E37DB /* RadialMenu.m */; };
 /* End PBXBuildFile section */
 
@@ -35,19 +32,13 @@
 		DCC67EBF1B38A61D002E37DB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DCC67EC11B38A61D002E37DB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DCC67EC21B38A61D002E37DB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DCC67EC41B38A61D002E37DB /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
-		DCC67EC51B38A61D002E37DB /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		DCC67EC41B38A61D002E37DB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DCC67EC51B38A61D002E37DB /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DCC67ECA1B38A61D002E37DB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DCC67ECD1B38A61D002E37DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		DCC67ED31B38A61D002E37DB /* Thirteen23RadialMenuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Thirteen23RadialMenuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCC67ED81B38A61D002E37DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCC67ED91B38A61D002E37DB /* Thirteen23RadialMenuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Thirteen23RadialMenuTests.m; sourceTree = "<group>"; };
-		DCC67EE91B38AB1E002E37DB /* OneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
-		DCC67EEA1B38AB1E002E37DB /* OneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneViewController.m; sourceTree = "<group>"; };
-		DCC67EEC1B38AB2C002E37DB /* TwoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoViewController.h; sourceTree = "<group>"; };
-		DCC67EED1B38AB2C002E37DB /* TwoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoViewController.m; sourceTree = "<group>"; };
-		DCC67EEF1B38AB3A002E37DB /* ThreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeViewController.h; sourceTree = "<group>"; };
-		DCC67EF01B38AB3A002E37DB /* ThreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeViewController.m; sourceTree = "<group>"; };
 		DCC67EF71B38AEB9002E37DB /* RadialMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadialMenu.h; sourceTree = "<group>"; };
 		DCC67EF81B38AEB9002E37DB /* RadialMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadialMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,9 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				DCC67EE51B38A993002E37DB /* Home */,
-				DCC67EE61B38AACD002E37DB /* One */,
-				DCC67EE71B38AADA002E37DB /* Two */,
-				DCC67EE81B38AAE1002E37DB /* Three */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -151,37 +139,10 @@
 		DCC67EE51B38A993002E37DB /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				DCC67EC41B38A61D002E37DB /* HomeViewController.h */,
-				DCC67EC51B38A61D002E37DB /* HomeViewController.m */,
+				DCC67EC41B38A61D002E37DB /* ViewController.h */,
+				DCC67EC51B38A61D002E37DB /* ViewController.m */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		DCC67EE61B38AACD002E37DB /* One */ = {
-			isa = PBXGroup;
-			children = (
-				DCC67EE91B38AB1E002E37DB /* OneViewController.h */,
-				DCC67EEA1B38AB1E002E37DB /* OneViewController.m */,
-			);
-			path = One;
-			sourceTree = "<group>";
-		};
-		DCC67EE71B38AADA002E37DB /* Two */ = {
-			isa = PBXGroup;
-			children = (
-				DCC67EEC1B38AB2C002E37DB /* TwoViewController.h */,
-				DCC67EED1B38AB2C002E37DB /* TwoViewController.m */,
-			);
-			path = Two;
-			sourceTree = "<group>";
-		};
-		DCC67EE81B38AAE1002E37DB /* Three */ = {
-			isa = PBXGroup;
-			children = (
-				DCC67EEF1B38AB3A002E37DB /* ThreeViewController.h */,
-				DCC67EF01B38AB3A002E37DB /* ThreeViewController.m */,
-			);
-			path = Three;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,13 +244,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCC67EC61B38A61D002E37DB /* HomeViewController.m in Sources */,
+				DCC67EC61B38A61D002E37DB /* ViewController.m in Sources */,
 				DCC67EF91B38AEB9002E37DB /* RadialMenu.m in Sources */,
 				DCC67EC31B38A61D002E37DB /* AppDelegate.m in Sources */,
 				DCC67EC01B38A61D002E37DB /* main.m in Sources */,
-				DCC67EF11B38AB3A002E37DB /* ThreeViewController.m in Sources */,
-				DCC67EEE1B38AB2C002E37DB /* TwoViewController.m in Sources */,
-				DCC67EEB1B38AB1E002E37DB /* OneViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

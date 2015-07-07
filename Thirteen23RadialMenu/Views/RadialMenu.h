@@ -16,9 +16,17 @@ typedef NS_ENUM(NSUInteger, ScreenIndex)
     ScreenIndexThree
 };
 
+typedef NS_ENUM(NSUInteger, ScreenDirection)
+{
+    ScreenDirectionUp,
+    ScreenDirectionDown,
+    ScreenDirectionRight,
+    ScreenDirectionLeft
+};
+
 @protocol RadialMenuDelegate <NSObject>
 @optional
--(void)selectedButtonAtScreenIndex:(ScreenIndex)index;
+-(void)touchedButtonWithScreenText:(NSString *)text andDirection:(ScreenDirection)direction;
 @end
 
 @interface RadialMenu : UIView 
