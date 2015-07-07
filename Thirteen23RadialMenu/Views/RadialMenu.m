@@ -181,18 +181,71 @@
     }
     if (self.delegate != nil)
     {
-        if ([self.delegate respondsToSelector:@selector(selectedButtonAtScreenIndex:)])
+        if ([self.delegate respondsToSelector:@selector(touchedButtonWithScreenText:andDirection:)])
         {
             if (touchedButton)
             {
                 [self hideAnimated:^(BOOL finished) {
+                    NSString *screenText = touchedButton.titleLabel.text;
+                    ScreenDirection direction = [self getScreenDirection:self.screenIndex andDestination:[self screenIndexForButton:touchedButton]];
                     self.screenIndex = (ScreenIndex)[self screenIndexForButton:touchedButton];
-                    [self.delegate selectedButtonAtScreenIndex:self.screenIndex];
-                    
+                    [self.delegate touchedButtonWithScreenText:screenText andDirection:direction];
                 }];
             }
         }
     }
+}
+-(ScreenDirection)getScreenDirection:(ScreenIndex)source andDestination:(ScreenIndex)destination
+{
+    switch (source)
+    {
+        case ScreenIndexHome:
+        {
+            return ScreenDirectionUp; // Selecting one of the items should cause you to transition to the selected screen. The selected screen should slide in from the bottom.
+            break;
+        }
+        case ScreenIndexOne:
+        {
+            if (destination == ScreenIndexHome)
+            {
+                return ScreenDirectionDown; // Selecting h will cause the home screen to slide in from the top.
+            }
+            else
+            {
+                return ScreenDirectionRight; // Slide in from the Right
+            }
+            break;
+        }
+        case ScreenIndexTwo:
+        {
+            if (destination == ScreenIndexHome)
+            {
+                return ScreenDirectionDown; // Selecting h will cause the home screen to slide in from the top.
+            }
+            else if (destination == ScreenIndexThree)
+            {
+                return ScreenDirectionRight; // Slide in from the Right
+            }
+            else if (destination == ScreenIndexOne)
+            {
+                return ScreenDirectionLeft; // Slide in from the Left
+            }
+            break;
+        }
+        case ScreenIndexThree:
+        {
+            if (destination == ScreenIndexHome)
+            {
+                return ScreenDirectionDown; // Selecting h will cause the home screen to slide in from the top.
+            }
+            else
+            {
+                return ScreenDirectionLeft; // Slide in from the LEFT
+            }
+            break;
+        }
+    }
+    return ScreenDirectionDown;
 }
 -(ScreenIndex)screenIndexForButton:(UIButton *)button
 {

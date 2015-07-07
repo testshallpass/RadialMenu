@@ -10,23 +10,11 @@
 #import "RadialMenu.h"
 
 #define FONT_SIZE 150.0f
-
-#define HOME @"h"
-#define ONE @"1"
-#define TWO @"2"
-#define THREE @"3"
-
-typedef NS_ENUM(NSUInteger, ScreenDirection)
-{
-    ScreenDirectionUp,
-    ScreenDirectionDown,
-    ScreenDirectionRight,
-    ScreenDirectionLeft
-};
+#define ANIMATION_DURATION 0.25f
 
 @interface ViewController () <RadialMenuDelegate>
 @property (strong, nonatomic) RadialMenu *menu;
-@property (strong, nonatomic) UILabel *screenLabel;
+@property (strong, nonatomic) UILabel *label;
 @end
 
 @implementation ViewController
@@ -35,50 +23,70 @@ typedef NS_ENUM(NSUInteger, ScreenDirection)
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.screenLabel = [[UILabel alloc] initWithFrame:self.view.bounds];
-    self.screenLabel.text = HOME;
-    self.screenLabel.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
-    self.screenLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:self.screenLabel];
+    self.label = [[UILabel alloc] initWithFrame:self.view.bounds];
+    self.label.text = @"h";
+    self.label.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
+    self.label.textAlignment = NSTextAlignmentCenter;
+    self.label.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:self.label];
     
     self.menu = [[RadialMenu alloc] initWithScreen:ScreenIndexHome];
     self.menu.delegate = self;
     [self.view addSubview:self.menu];
-    
-    self.navigationItem.hidesBackButton = YES;
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
 }
 #pragma mark - Radial Menu Delegate
--(void)selectedButtonAtScreenIndex:(ScreenIndex)index
+-(void)touchedButtonWithScreenText:(NSString *)text andDirection:(ScreenDirection)direction
 {
-    switch (index)
+    self.label.text = text;
+    [self moveLabelForDirection:direction];
+}
+#pragma mark - Move Label 
+-(void)moveLabelForDirection:(ScreenDirection)direction
+{
+    float dx = 0;
+    float dy = 0;
+    
+    switch (direction)
     {
-        case ScreenIndexHome:
+        case ScreenDirectionUp:
         {
-            [self changeScreenLabelWithText:HOME andDirection:ScreenDirectionDown];
+            dx = 0;
+            dy = self.view.frame.size.height;
             break;
         }
-        case ScreenIndexOne:
+        case ScreenDirectionDown:
         {
-            [self changeScreenLabelWithText:ONE andDirection:ScreenDirectionLeft];
+            dx = 0;
+            dy = -(self.view.frame.size.height);
             break;
         }
-        case ScreenIndexTwo:
+        case ScreenDirectionRight:
         {
-            [self changeScreenLabelWithText:TWO andDirection:ScreenDirectionRight];
+            dx = self.view.frame.size.width;
+            dy = 0;
             break;
         }
-        case ScreenIndexThree:
+        case ScreenDirectionLeft:
         {
-            [self changeScreenLabelWithText:THREE andDirection:ScreenDirectionUp];
+            dx = -(self.view.frame.size.width);
+            dy = 0;
+            break;
+        }
+        default:
+        {
+            dx=0;
+            dy=0;
             break;
         }
     }
-}
--(void)changeScreenLabelWithText:(NSString *)text andDirection:(ScreenDirection)direction
-{
-    self.screenLabel.text = text;
-    // TODO: Animate Label to in/out left/right
+    self.label.frame = CGRectMake(dx, dy, self.label.frame.size.width, self.label.frame.size.height);
+    
+    [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.label.frame = CGRectMake(0, 0, self.label.frame.size.width, self.label.frame.size.height);
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 @end
