@@ -92,6 +92,12 @@
     BOOL hideLeft = !(location.x > ([UIScreen mainScreen].bounds.size.width / 2));
     BOOL hideTop = (location.y < 154);
     BOOL hideBottom = (location.y > [UIScreen mainScreen].bounds.size.height-75);
+    
+    if (hideTop || hideBottom)
+    {
+        hideLeft = NO;
+        hideRight = NO;
+    }
 
     NSArray *statusArray = @[[NSNumber numberWithBool:hideRight],[NSNumber numberWithBool:hideLeft],[NSNumber numberWithBool:hideTop],[NSNumber numberWithBool:hideBottom]];
     self.centerLocation = location;
@@ -180,7 +186,9 @@
             if (touchedButton)
             {
                 [self hideAnimated:^(BOOL finished) {
-                    [self.delegate selectedButtonAtScreenIndex:[self screenIndexForButton:touchedButton]];
+                    self.screenIndex = (ScreenIndex)[self screenIndexForButton:touchedButton];
+                    [self.delegate selectedButtonAtScreenIndex:self.screenIndex];
+                    
                 }];
             }
         }
