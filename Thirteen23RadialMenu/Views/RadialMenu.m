@@ -8,7 +8,7 @@
 
 #import "RadialMenu.h"
 
-#define ANIMATION_DURATION 0.30f
+#define ANIMATION_DURATION 0.25f
 #define BUTTON_BORDER_WIDTH 2.0f
 #define BUTTON_SIZE 50.0f
 #define BUTTON_COUNT 4
@@ -18,6 +18,7 @@
 @property (nonatomic, readwrite) CGPoint centerLocation;
 @property (nonatomic, readwrite) ScreenIndex screenIndex;
 @property (strong, nonatomic) NSMutableArray *buttonArray;
+@property (nonatomic, assign) BOOL showingMenu;
 @end
 
 @implementation RadialMenu
@@ -87,7 +88,19 @@
     {
         return;
     }
-    
+    if (self.showingMenu)
+    {
+        [self hideAnimated:^(BOOL finished) {
+            [self showAtLocation:location];
+        }];
+    }
+    else
+    {
+        [self showAtLocation:location];
+    }
+}
+-(void)showAtLocation:(CGPoint)location
+{
     BOOL hideRight = (location.x > ([UIScreen mainScreen].bounds.size.width / 2));
     BOOL hideLeft = !(location.x > ([UIScreen mainScreen].bounds.size.width / 2));
     BOOL hideTop = (location.y < 154);
@@ -136,9 +149,8 @@
             [button setTitle:titles[index] forState:UIControlStateNormal];
             index++;
         }
-       // self.backgroundColor = [self darkBackgroundColor];
+        self.showingMenu = YES;
     } completion:nil];
-    
 }
 -(void)hideAnimated:(void (^)(BOOL finished))completion
 {
@@ -152,7 +164,7 @@
         {
             button.alpha = 0.0f;
         }
-        self.backgroundColor = [self defaultBackgroundColor];
+        self.showingMenu = NO;
         completion(finished);
     }];
 }
@@ -244,13 +256,5 @@
     {
         return (ScreenIndex)[title intValue];
     }
-}
--(UIColor *)darkBackgroundColor
-{
-    return [UIColor darkGrayColor];
-}
--(UIColor *)defaultBackgroundColor
-{
-    return [UIColor colorWithWhite:1.000 alpha:0.000];
 }
 @end
