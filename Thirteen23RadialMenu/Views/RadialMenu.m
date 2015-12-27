@@ -31,7 +31,6 @@
         self.buttonArray = [NSMutableArray new];
         [self setupButtons];
         self.screenIndex = screen;
-        
         UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPressGesture.minimumPressDuration = 0.01f;
         [self addGestureRecognizer:longPressGesture];
@@ -111,6 +110,7 @@
         hideLeft = NO;
         hideRight = NO;
     }
+    
     NSArray *statusArray = @[[NSNumber numberWithBool:hideRight],[NSNumber numberWithBool:hideLeft],[NSNumber numberWithBool:hideTop],[NSNumber numberWithBool:hideBottom]];
     self.centerLocation = location;
     
@@ -140,7 +140,14 @@
             button.alpha = ![[statusArray objectAtIndex:index] intValue];
             if (button.alpha > 0)
             {
-                [buttonsToShow addObject:button];
+                if (CGRectContainsRect(self.frame, button.frame)) // Fixes whether the button is offscreen.
+                {
+                    [buttonsToShow addObject:button];
+                }
+                else
+                {
+                    button.alpha = 0.0f;
+                }
             }
         }
         int index = 0;
