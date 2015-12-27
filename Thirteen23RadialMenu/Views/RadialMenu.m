@@ -8,7 +8,7 @@
 
 #import "RadialMenu.h"
 
-#define ANIMATION_DURATION 0.30f
+#define ANIMATION_DURATION 0.25f
 #define BUTTON_BORDER_WIDTH 2.0f
 #define BUTTON_SIZE 50.0f
 #define BUTTON_COUNT 4
@@ -18,6 +18,7 @@
 @property (nonatomic, readwrite) CGPoint centerLocation;
 @property (nonatomic, readwrite) ScreenIndex screenIndex;
 @property (strong, nonatomic) NSMutableArray *buttonArray;
+@property (nonatomic, assign) BOOL showingMenu;
 @end
 
 @implementation RadialMenu
@@ -30,7 +31,6 @@
         self.buttonArray = [NSMutableArray new];
         [self setupButtons];
         self.screenIndex = screen;
-        
         UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
         longPressGesture.minimumPressDuration = 0.01f;
         [self addGestureRecognizer:longPressGesture];
@@ -87,7 +87,19 @@
     {
         return;
     }
-    
+    if (self.showingMenu)
+    {
+        [self hideAnimated:^(BOOL finished) {
+            [self showAtLocation:location];
+        }];
+    }
+    else
+    {
+        [self showAtLocation:location];
+    }
+}
+-(void)showAtLocation:(CGPoint)location
+{
     BOOL hideRight = (location.x > ([UIScreen mainScreen].bounds.size.width / 2));
     BOOL hideLeft = !(location.x > ([UIScreen mainScreen].bounds.size.width / 2));
     BOOL hideTop = (location.y < 154);
@@ -98,47 +110,67 @@
         hideLeft = NO;
         hideRight = NO;
     }
+    
     NSArray *statusArray = @[[NSNumber numberWithBool:hideRight],[NSNumber numberWithBool:hideLeft],[NSNumber numberWithBool:hideTop],[NSNumber numberWithBool:hideBottom]];
     self.centerLocation = location;
     
-    [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:0.1f delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
-        NSArray *titles = [self titlesForScreen:self.screenIndex];
-        NSMutableArray *buttonsToShow = [NSMutableArray new];
         for (int index=0; index < self.buttonArray.count; index++)
         {
             UIButton *button = (UIButton *)[self.buttonArray objectAtIndex:index];
-            if (index == 0) // right
-            {
-                button.center = CGPointMake(self.centerLocation.x+BUTTON_RADIUS,self.centerLocation.y);
-            }
-            else if (index == 1) // left
-            {
-                button.center = CGPointMake(self.centerLocation.x-BUTTON_RADIUS,self.centerLocation.y);
-            }
-            else if (index == 2) // top
-            {
-                button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-BUTTON_RADIUS);
-            }
-            else if (index == 3) // bottom
-            {
-                button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y+BUTTON_RADIUS);
-            }
-            button.alpha = ![[statusArray objectAtIndex:index] intValue];
-            if (button.alpha > 0)
-            {
-                [buttonsToShow addObject:button];
-            }
+            button.center = self.centerLocation;
         }
-        int index = 0;
-        for (UIButton *button in buttonsToShow)
-        {
-            [button setTitle:titles[index] forState:UIControlStateNormal];
-            index++;
-        }
-       // self.backgroundColor = [self darkBackgroundColor];
-    } completion:nil];
-    
+        
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            
+            NSArray *titles = [self titlesForScreen:self.screenIndex];
+            NSMutableArray *buttonsToShow = [NSMutableArray new];
+            for (int index=0; index < self.buttonArray.count; index++)
+            {
+                UIButton *button = (UIButton *)[self.buttonArray objectAtIndex:index];
+                if (index == 0) // right
+                {
+                    button.center = CGPointMake(self.centerLocation.x+BUTTON_RADIUS,self.centerLocation.y);
+                }
+                else if (index == 1) // left
+                {
+                    button.center = CGPointMake(self.centerLocation.x-BUTTON_RADIUS,self.centerLocation.y);
+                }
+                else if (index == 2) // top
+                {
+                    button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-BUTTON_RADIUS);
+                }
+                else if (index == 3) // bottom
+                {
+                    button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y+BUTTON_RADIUS);
+                }
+                button.alpha = ![[statusArray objectAtIndex:index] intValue];
+                if (button.alpha > 0)
+                {
+                    if (CGRectContainsRect(self.frame, button.frame)) // Fixes whether the button is offscreen.
+                    {
+                        [buttonsToShow addObject:button];
+                    }
+                    else
+                    {
+                        button.alpha = 0.0f;
+                    }
+                }
+            }
+            int index = 0;
+            for (UIButton *button in buttonsToShow)
+            {
+                [button setTitle:titles[index] forState:UIControlStateNormal];
+                index++;
+            }
+            self.showingMenu = YES;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }];
 }
 -(void)hideAnimated:(void (^)(BOOL finished))completion
 {
@@ -152,7 +184,7 @@
         {
             button.alpha = 0.0f;
         }
-        self.backgroundColor = [self defaultBackgroundColor];
+        self.showingMenu = NO;
         completion(finished);
     }];
 }
@@ -244,13 +276,5 @@
     {
         return (ScreenIndex)[title intValue];
     }
-}
--(UIColor *)darkBackgroundColor
-{
-    return [UIColor darkGrayColor];
-}
--(UIColor *)defaultBackgroundColor
-{
-    return [UIColor colorWithWhite:1.000 alpha:0.000];
 }
 @end
