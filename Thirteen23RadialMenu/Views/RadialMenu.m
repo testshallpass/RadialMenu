@@ -114,50 +114,63 @@
     NSArray *statusArray = @[[NSNumber numberWithBool:hideRight],[NSNumber numberWithBool:hideLeft],[NSNumber numberWithBool:hideTop],[NSNumber numberWithBool:hideBottom]];
     self.centerLocation = location;
     
-    [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:0.1f delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
-        NSArray *titles = [self titlesForScreen:self.screenIndex];
-        NSMutableArray *buttonsToShow = [NSMutableArray new];
         for (int index=0; index < self.buttonArray.count; index++)
         {
             UIButton *button = (UIButton *)[self.buttonArray objectAtIndex:index];
-            if (index == 0) // right
-            {
-                button.center = CGPointMake(self.centerLocation.x+BUTTON_RADIUS,self.centerLocation.y);
-            }
-            else if (index == 1) // left
-            {
-                button.center = CGPointMake(self.centerLocation.x-BUTTON_RADIUS,self.centerLocation.y);
-            }
-            else if (index == 2) // top
-            {
-                button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-BUTTON_RADIUS);
-            }
-            else if (index == 3) // bottom
-            {
-                button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y+BUTTON_RADIUS);
-            }
-            button.alpha = ![[statusArray objectAtIndex:index] intValue];
-            if (button.alpha > 0)
-            {
-                if (CGRectContainsRect(self.frame, button.frame)) // Fixes whether the button is offscreen.
-                {
-                    [buttonsToShow addObject:button];
-                }
-                else
-                {
-                    button.alpha = 0.0f;
-                }
-            }
+            button.center = self.centerLocation;
         }
-        int index = 0;
-        for (UIButton *button in buttonsToShow)
-        {
-            [button setTitle:titles[index] forState:UIControlStateNormal];
-            index++;
-        }
-        self.showingMenu = YES;
-    } completion:nil];
+        
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:ANIMATION_DURATION delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            
+            NSArray *titles = [self titlesForScreen:self.screenIndex];
+            NSMutableArray *buttonsToShow = [NSMutableArray new];
+            for (int index=0; index < self.buttonArray.count; index++)
+            {
+                UIButton *button = (UIButton *)[self.buttonArray objectAtIndex:index];
+                if (index == 0) // right
+                {
+                    button.center = CGPointMake(self.centerLocation.x+BUTTON_RADIUS,self.centerLocation.y);
+                }
+                else if (index == 1) // left
+                {
+                    button.center = CGPointMake(self.centerLocation.x-BUTTON_RADIUS,self.centerLocation.y);
+                }
+                else if (index == 2) // top
+                {
+                    button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y-BUTTON_RADIUS);
+                }
+                else if (index == 3) // bottom
+                {
+                    button.center = CGPointMake(self.centerLocation.x,self.centerLocation.y+BUTTON_RADIUS);
+                }
+                button.alpha = ![[statusArray objectAtIndex:index] intValue];
+                if (button.alpha > 0)
+                {
+                    if (CGRectContainsRect(self.frame, button.frame)) // Fixes whether the button is offscreen.
+                    {
+                        [buttonsToShow addObject:button];
+                    }
+                    else
+                    {
+                        button.alpha = 0.0f;
+                    }
+                }
+            }
+            int index = 0;
+            for (UIButton *button in buttonsToShow)
+            {
+                [button setTitle:titles[index] forState:UIControlStateNormal];
+                index++;
+            }
+            self.showingMenu = YES;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }];
 }
 -(void)hideAnimated:(void (^)(BOOL finished))completion
 {
