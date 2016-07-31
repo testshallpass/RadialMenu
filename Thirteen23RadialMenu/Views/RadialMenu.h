@@ -34,5 +34,4 @@ typedef NS_ENUM(NSUInteger, ScreenDirection)
 -(instancetype)initWithScreen:(ScreenIndex)screen;
 -(void)showAnimatedAtLocation:(CGPoint)location;
 -(void)hideAnimated:(void (^)(BOOL finished))completion;
-
 @end
